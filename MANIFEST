@@ -3,5 +3,11 @@ MANIFEST
 Makefile.PL
 README
 lib/File/TestPath.pm
+t/File/TestPath.d
+t/File/TestPath.pm
 t/File/TestPath.t
 tlib/File/Package.pm
+tlib/File/SmartNL.pm
+tlib/Text/Scrub.pm
+tlib/Test/Tech.pm
+tlib/Data/Secs2.pm

@@ -10,19 +10,25 @@ use warnings;
 use warnings::register;
 
 use vars qw($VERSION $DATE $FILE );
-$VERSION = '0.02';
-$DATE = '2003/07/26';
+$VERSION = '0.03';
+$DATE = '2003/09/20';
 $FILE = __FILE__;
 
 use vars qw(%INVENTORY);
 %INVENTORY = (
-    'lib/Docs/Site_SVD/File_TestPath.pm' => [qw(0.02 2003/07/26), 'revised 0.01'],
-    'MANIFEST' => [qw(0.02 2003/07/26), 'generated, replaces 0.01'],
-    'Makefile.PL' => [qw(0.02 2003/07/26), 'generated, replaces 0.01'],
-    'README' => [qw(0.02 2003/07/26), 'generated, replaces 0.01'],
-    'lib/File/TestPath.pm' => [qw(1.11 2003/07/26), 'revised 1.1'],
-    't/File/TestPath.t' => [qw(0.08 2003/07/26), 'revised 0.07'],
-    'tlib/File/Package.pm' => [qw(1.1 2003/07/26), 'new'],
+    'lib/Docs/Site_SVD/File_TestPath.pm' => [qw(0.03 2003/09/20), 'revised 0.02'],
+    'MANIFEST' => [qw(0.03 2003/09/20), 'generated, replaces 0.02'],
+    'Makefile.PL' => [qw(0.03 2003/09/20), 'generated, replaces 0.02'],
+    'README' => [qw(0.03 2003/09/20), 'generated, replaces 0.02'],
+    'lib/File/TestPath.pm' => [qw(1.12 2003/09/20), 'revised 1.11'],
+    't/File/TestPath.d' => [qw(0.01 2003/09/20), 'new'],
+    't/File/TestPath.pm' => [qw(0.01 2003/09/20), 'new'],
+    't/File/TestPath.t' => [qw(0.09 2003/09/20), 'revised 0.08'],
+    'tlib/File/Package.pm' => [qw(1.13 2003/09/20), 'revised 1.1'],
+    'tlib/File/SmartNL.pm' => [qw(1.12 2003/09/20), 'new'],
+    'tlib/Text/Scrub.pm' => [qw(1.11 2003/09/20), 'new'],
+    'tlib/Test/Tech.pm' => [qw(1.15 2003/09/20), 'new'],
+    'tlib/Data/Secs2.pm' => [qw(1.15 2003/09/20), 'new'],
 
 );
 
@@ -47,13 +53,13 @@ use vars qw(%INVENTORY);
 
  for
 
-  File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
+  File::TestPath - Determines include directories for the test software
 
- Revision: A
+ Revision: B
 
- Version: 0.02
+ Version: 0.03
 
- Date: 2003/07/26
+ Date: 2003/09/20
 
  Prepared for: General Public 
 
@@ -87,7 +93,7 @@ in the test subtree.
 
 =head2 1.3 Document overview.
 
-This document releases File::TestPath version 0.02
+This document releases File::TestPath version 0.03
 providing a description of the inventory, installation
 instructions and other information necessary to
 utilize and track this release.
@@ -103,8 +109,8 @@ system file specification.
 This document releases the file found
 at the following repository(s):
 
-   http://www.softwarediamonds/packages/File-TestPath-0.02
-   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.02
+   http://www.softwarediamonds/packages/File-TestPath-0.03
+   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.03
 
 
 Restrictions regarding duplication and license provisions
@@ -172,13 +178,19 @@ consists of the following files:
 
  file                                                         version date       comment
  ------------------------------------------------------------ ------- ---------- ------------------------
- lib/Docs/Site_SVD/File_TestPath.pm                           0.02    2003/07/26 revised 0.01
- MANIFEST                                                     0.02    2003/07/26 generated, replaces 0.01
- Makefile.PL                                                  0.02    2003/07/26 generated, replaces 0.01
- README                                                       0.02    2003/07/26 generated, replaces 0.01
- lib/File/TestPath.pm                                         1.11    2003/07/26 revised 1.1
- t/File/TestPath.t                                            0.08    2003/07/26 revised 0.07
- tlib/File/Package.pm                                         1.1     2003/07/26 new
+ lib/Docs/Site_SVD/File_TestPath.pm                           0.03    2003/09/20 revised 0.02
+ MANIFEST                                                     0.03    2003/09/20 generated, replaces 0.02
+ Makefile.PL                                                  0.03    2003/09/20 generated, replaces 0.02
+ README                                                       0.03    2003/09/20 generated, replaces 0.02
+ lib/File/TestPath.pm                                         1.12    2003/09/20 revised 1.11
+ t/File/TestPath.d                                            0.01    2003/09/20 new
+ t/File/TestPath.pm                                           0.01    2003/09/20 new
+ t/File/TestPath.t                                            0.09    2003/09/20 revised 0.08
+ tlib/File/Package.pm                                         1.13    2003/09/20 revised 1.1
+ tlib/File/SmartNL.pm                                         1.12    2003/09/20 new
+ tlib/Text/Scrub.pm                                           1.11    2003/09/20 new
+ tlib/Test/Tech.pm                                            1.15    2003/09/20 new
+ tlib/Data/Secs2.pm                                           1.15    2003/09/20 new
 
 
 =head2 3.3 Changes
@@ -278,10 +290,10 @@ t/Test/TestUtil/TestUtil....NOK 18# Test 18 got: '$VAR1 = '\\=head1 Title Page
  for
 
 
-  File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
+  File::TestPath - Determines include directories for the test software
 
 
- Revision: A
+ Revision: B
 
 [snip]
 
@@ -296,7 +308,7 @@ t/Test/TestUtil/TestUtil....NOK 18# Test 18 got: '$VAR1 = '\\=head1 Title Page
  for
 
 
-  File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
+  File::TestPath - Determines include directories for the test software
 
 What we have before, was a totally "failure to communicate." aka Cool Hand Luke. 
 VAR1 was empty. Now VAR1 has something. It is not completely dead.
@@ -413,6 +425,15 @@ The test of this module will precede immediately.
 The test support files in the tlib directory will vanish after
 the installtion.
 
+=item File-TestPath-0.03
+
+Use Archive::TarGzip 0.02 that uses modd 777 for directories instead of 666. Started to get
+emails from Unix about untar not being able to change to
+a directory with mod of 666.
+
+Added the 'Data-Secs2' to the 'tlib' test library.
+Upgraded to the 'Test-Tech' module that uses the 'Data-Secs2' module.
+
 =back
 
 =head2 3.4 Adaptation data.
@@ -446,8 +467,8 @@ Follow the instructions for the the chosen installation software.
 
 The distribution file is at the following respositories:
 
-   http://www.softwarediamonds/packages/File-TestPath-0.02
-   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.02
+   http://www.softwarediamonds/packages/File-TestPath-0.03
+   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.03
 
 
 =item Prerequistes.
@@ -559,15 +580,15 @@ __DATA__
 DISTNAME: File-TestPath^
 REPOSITORY_DIR: packages^
 
-VERSION : 0.02^
+VERSION : 0.03^
 FREEZE:  1^
 PREVIOUS_DISTNAME:  ^
-PREVIOUS_RELEASE: 0.01^
-REVISION: A^
+PREVIOUS_RELEASE: 0.02^
+REVISION: B^
 
 AUTHOR  : SoftwareDiamonds.com E<lt>support@SoftwareDiamonds.comE<gt>^
-ABSTRACT: Generic file utilities originally developed to support Test::STDmaker^
-TITLE   :  File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker^
+ABSTRACT: Determines include directories for the test software^
+TITLE   :  File::TestPath - Determines include directories for the test software^
 END_USER: General Public^
 COPYRIGHT: copyright © 2003 Software Diamonds^
 CLASSIFICATION: NONE^
@@ -588,8 +609,12 @@ CHANGE2CURRENT:  ^
 
 AUTO_REVISE: 
 lib/File/TestPath.pm
-t/File/TestPath.t
+t/File/TestPath.*
 lib/File/Package.pm => tlib/File/Package.pm
+lib/File/SmartNL.pm => tlib/File/SmartNL.pm
+lib/Text/Scrub.pm => tlib/Text/Scrub.pm
+lib/Test/Tech.pm => tlib/Test/Tech.pm
+lib/Data/Secs2.pm => tlib/Data/Secs2.pm
 ^
 
 PREREQ_PM:  ^
@@ -826,6 +851,15 @@ test of this module.
 The test of this module will precede immediately.
 The test support files in the tlib directory will vanish after
 the installtion.
+
+\=item File-TestPath-0.03
+
+Use Archive::TarGzip 0.02 that uses modd 777 for directories instead of 666. Started to get
+emails from Unix about untar not being able to change to
+a directory with mod of 666.
+
+Added the 'Data-Secs2' to the 'tlib' test library.
+Upgraded to the 'Test-Tech' module that uses the 'Data-Secs2' module.
 
 \=back
 

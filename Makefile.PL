@@ -23,7 +23,7 @@ my $tests = join ' ',unix2os('t/File/TestPath.t');
 WriteMakefile(
     NAME => 'File::TestPath',
     DISTNAME => 'File-TestPath',
-    VERSION  => '0.02',
+    VERSION  => '0.03',
     dist     => {COMPRESS => 'gzip',
                 'gz' => 'gz'},
     test     => {TESTS => $tests},
@@ -32,7 +32,7 @@ WriteMakefile(
 
     ($] >= 5.005 ?     
         (AUTHOR    => 'SoftwareDiamonds.com E<lt>support@SoftwareDiamonds.comE<gt>',
-        ABSTRACT  => 'Generic file utilities originally developed to support Test::STDmaker', ) : ()),
+        ABSTRACT  => 'Determines include directories for the test software', ) : ()),
 );
 
 

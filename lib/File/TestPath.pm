@@ -10,8 +10,13 @@ use warnings;
 use warnings::register;
 
 use vars qw($VERSION $DATE);
-$VERSION = '1.11';
-$DATE = '2003/07/26';
+$VERSION = '1.12';
+$DATE = '2003/09/20';
+
+use vars qw(@ISA @EXPORT_OK);
+use Exporter;
+@ISA = qw(Exporter);
+@EXPORT_OK = qw(test_lib2inc find_t_paths find_t_roots);
 
 use SelfLoader;
 use File::Spec;
@@ -136,10 +141,22 @@ __END__
 
 =head1 NAME
 
-File::TestPath - Determines directories for the test software
+File::TestPath - Determines include directories for the test software
 
 =head1 SYNOPSIS
 
+  #######
+  # Procedural (subroutine) interface
+  # 
+  use File::TestPath qw(test_lib2inc find_t_paths find_t_roots);
+
+  @INC           = test_lib2inc()
+  @t_path        = find_t_paths()
+  @t_path        = find_t_roots()
+
+  #######
+  # Class interface
+  # 
   use File::TestPath
 
   @INC           = File::TestPath->test_lib2inc()
@@ -168,20 +185,6 @@ very well.
 The I<find_t_paths> method returns the directory trees in I<@INC> with
 the last directory changed to I<t>.
 
-For example, 
-
- ==> @INC
-
- myperl/lib
- perl/site/lib
- perl/lib 
-
- => File::TestPath->find_t_paths()
-
- myperl/t
- perl/site/t
- perl/t 
-
 =head2 find_t_roots method
 
 This method operates on the assumption that the test files are a subtree to
@@ -192,20 +195,6 @@ very well.
 
 The I<find_t_roots> method returns the directory trees in I<@INC> with
 last directory drooped.
-
-For example, 
-
- ==> @INC
-
- myperl/lib
- perl/site/lib
- perl/lib 
-
- => File::TestPath->find_t_roots()
-
- myperl
- perl/site
- perl
 
 =head2 test_lib2inc method
 
@@ -218,32 +207,233 @@ replaced by "lib" onto @INC.
 The I<test_lib2inc> method returns the @INC before it is altered so
 that the using method may return @INC to before calling I<test_lib2inc>.
 
-For example,
+=head1 REQUIREMENTS
 
- ==> @INC
+Coming soon.
 
- perl/site/lib
- perl/lib 
+=head1 DEMONSTRATION
 
- ==> cwd()
+ ~~~~~~ Demonstration overview ~~~~~
 
- myperl/t/mymodule/mytests
+Perl code begins with the prompt
 
- => @restore_inc = File::TestPath->find_t_roots()
+ =>
 
- => @INC
+The selected results from executing the Perl Code 
+follow on the next lines. For example,
 
- myperl/lib
- myperl
- perl/site/lib
- perl/lib
+ => 2 + 2
+ 4
 
- => @restore_inc
+ ~~~~~~ The demonstration follows ~~~~~
 
- perl/site/lib
- perl/lib
+ =>     use File::Spec;
+ =>  
+ =>     use File::Package;
+ =>     my $fp = 'File::Package';
+
+ =>     use File::TestPath;
+ =>     my $uut = 'File::TestPath';
+ =>     use File::TestPath;
+ =>    unshift @INC,File::Spec->catdir(cwd(),'lib');
+ =>    my @t_path = $uut->find_t_paths( );
+ => $t_path[0]
+ 'E:\User\SoftwareDiamonds\installation\t\File\t'
+
+ => shift @INC;
+ =>    my @restore_inc = $uut->test_lib2inc( );
+
+ =>    my ($vol,$dirs) = File::Spec->splitpath( cwd(), 'nofile');
+ =>    my @dirs = File::Spec->splitdir( $dirs );
+ =>    pop @dirs;
+ =>    shift @dirs unless $dirs[0];
+ =>    my @expected_lib = ();
+ =>    my @t_root = @dirs;
+ =>    pop @t_root;
+ =>    unshift @expected_lib, File::Spec->catdir($vol, @t_root);
+ =>    $dirs[-1] = 'lib';
+ =>    unshift @expected_lib, File::Spec->catdir($vol, @dirs);
+ =>    $dirs[-1] = 'tlib';
+ =>    unshift @expected_lib, File::Spec->catdir($vol, @dirs);
+ => join('; ', ($INC[0],$INC[1],$INC[2]))
+ 'E:\User\SoftwareDiamonds\installation\tlib; E:\User\SoftwareDiamonds\installation\lib; E:\User\SoftwareDiamonds\installation'
+
+ => @INC = @restore_inc;
+ =>    my $dir = File::Spec->catdir(cwd(),'lib');
+ =>    $dir =~ s=/=\\=g if $^O eq 'MSWin32';
+ =>    unshift @INC,$dir;
+ =>    @t_path = $uut->find_t_roots( );
+ =>    $dir = cwd();
+ =>    $dir =~ s=/=\\=g if $^O eq 'MSWin32';
+ => $t_path[0]
+ 'E:\User\SoftwareDiamonds\installation\t\File'
+
+ => shift @INC
+
+=head1 QUALITY ASSURANCE
+
+Running the test script 'TestPath.t' found in
+the "File-TestPath-$VERSION.tar.gz" distribution file verifies
+the requirements for this module.
+
+All testing software and documentation
+stems from the 
+Software Test Description (L<STD|Docs::US_DOD::STD>)
+program module 't::File::TestPath',
+found in the distribution file 
+"File-TestPath-$VERSION.tar.gz". 
+
+The 't::File::TestPath' L<STD|Docs::US_DOD::STD> POD contains
+a tracebility matix between the
+requirements established above for this module, and
+the test steps identified by a
+'ok' number from running the 'TestPath.t'
+test script.
+
+The t::File::TestPath' L<STD|Docs::US_DOD::STD>
+program module '__DATA__' section contains the data 
+to perform the following:
+
+=over 4
+
+=item *
+
+to generate the test script 'TestPath.t'
+
+=item *
+
+generate the tailored 
+L<STD|Docs::US_DOD::STD> POD in
+the 't::File::TestPath' module, 
+
+=item *
+
+generate the 'TestPath.d' demo script, 
+
+=item *
+
+replace the POD demonstration section
+herein with the demo script
+'TestPath.d' output, and
+
+=item *
+
+run the test script using Test::Harness
+with or without the verbose option,
+
+=back
+
+To perform all the above, prepare
+and run the automation software as 
+follows:
+
+=over 4
+
+=item *
+
+Install "Test_STDmaker-$VERSION.tar.gz"
+from one of the respositories only
+if it has not been installed:
+
+=over 4
+
+=item *
+
+http://www.softwarediamonds/packages/
+
+=item *
+
+http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/
+
+=back
+  
+=item *
+
+manually place the script tmake.pl
+in "Test_STDmaker-$VERSION.tar.gz' in
+the site operating system executable 
+path only if it is not in the 
+executable path
+
+=item *
+
+place the 't::File::TestPath' at the same
+level in the directory struture as the
+directory holding the 'File::TestPath'
+module
+
+=item *
+
+execute the following in any directory:
+
+ tmake -test_verbose -replace -run -pm=t::File::TestPath
+
+=back
 
 =head1 NOTES
+
+=head2 FILES
+
+The installation of the
+"File-TestPath-$VERSION.tar.gz" distribution file
+installs the 'Docs::Site_SVD::File_TestPath'
+L<SVD|Docs::US_DOD::SVD> program module.
+
+The __DATA__ data section of the 
+'Docs::Site_SVD::File_TestPath' contains all
+the necessary data to generate the POD
+section of 'Docs::Site_SVD::File_TestPath' and
+the "File-TestPath-$VERSION.tar.gz" distribution file.
+
+To make use of the 
+'Docs::Site_SVD::File_TestPath'
+L<SVD|Docs::US_DOD::SVD> program module,
+perform the following:
+
+=over 4
+
+=item *
+
+install "ExtUtils-SVDmaker-$VERSION.tar.gz"
+from one of the respositories only
+if it has not been installed:
+
+=over 4
+
+=item *
+
+http://www.softwarediamonds/packages/
+
+=item *
+
+http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/
+
+=back
+
+=item *
+
+manually place the script vmake.pl
+in "ExtUtils-SVDmaker-$VERSION.tar.gz' in
+the site operating system executable 
+path only if it is not in the 
+executable path
+
+=item *
+
+Make any appropriate changes to the
+__DATA__ section of the 'Docs::Site_SVD::File_TestPath'
+module.
+For example, any changes to
+'File::TestPath' will impact the
+at least 'Changes' field.
+
+=item *
+
+Execute the following:
+
+ vmake readme_html all -pm=Docs::Site_SVD::File_TestPath
+
+=back
 
 =head2 AUTHOR
 

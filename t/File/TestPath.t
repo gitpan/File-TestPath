@@ -6,13 +6,34 @@ use strict;
 use warnings;
 use warnings::register;
 
-use vars qw($VERSION $DATE);
-$VERSION = '0.08';
-$DATE = '2003/07/26';
+use vars qw($VERSION $DATE $FILE);
+$VERSION = '0.09';   # automatically generated file
+$DATE = '2003/09/20';
+$FILE = __FILE__;
 
+use Getopt::Long;
 use Cwd;
 use File::Spec;
-use Test;
+
+##### Test Script ####
+#
+# Name: TestPath.t
+#
+# UUT: File::TestPath
+#
+# The module Test::STDmaker generated this test script from the contents of
+#
+# t::File::TestPath;
+#
+# Don't edit this test script file, edit instead
+#
+# t::File::TestPath;
+#
+#	ANY CHANGES MADE HERE TO THIS SCRIPT FILE WILL BE LOST
+#
+#       the next time Test::STDmaker generates this script file.
+#
+#
 
 ######
 #
@@ -21,20 +42,13 @@ use Test;
 # use a BEGIN block so we print our plan before Module Under Test is loaded
 #
 BEGIN { 
-   use vars qw( $__restore_dir__ $__tests__ @__restore_inc__);
-
-   ########
-   # Create the test plan by supplying the number of tests
-   # and the todo tests
-   #
-   $__tests__ = 5;
-   plan(tests => $__tests__);
+   use vars qw( $__restore_dir__ @__restore_inc__);
 
    ########
    # Working directory is that of the script file
    #
    $__restore_dir__ = cwd();
-   my ($vol, $dirs, undef) = File::Spec->splitpath( __FILE__ );
+   my ($vol, $dirs) = File::Spec->splitpath(__FILE__);
    chdir $vol if $vol;
    chdir $dirs if $dirs;
    ($vol, $dirs) = File::Spec->splitpath(cwd(), 'nofile'); # absolutify
@@ -58,22 +72,61 @@ BEGIN {
    my $lib_dir = cwd();
 
    #####
+   # Add this to the include path. Thus modules that start with t::
+   # will be found.
+   # 
+   $lib_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
+   unshift @INC, $lib_dir;  # include the current test directory
+
+   #####
    # Add lib to the include path so that modules under lib at the
    # same level as t, will be found
    #
-   my $inc_dir = File::Spec->catdir( $lib_dir, 'lib' );
-   $inc_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
-   unshift @INC, $inc_dir;
+   $lib_dir = File::Spec->catdir( cwd(), 'lib' );
+   $lib_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
+   unshift @INC, $lib_dir;
 
    #####
    # Add tlib to the include path so that modules under tlib at the
    # same level as t, will be found
    #
-   $inc_dir = File::Spec->catdir( $lib_dir, 'tlib' );
-   $inc_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
-   unshift @INC, $inc_dir;
+   $lib_dir = File::Spec->catdir( cwd(), 'tlib' );
+   $lib_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
+   unshift @INC, $lib_dir;
    chdir $dirs if $dirs;
+ 
+   #####
+   # Add lib under the directory where the test script resides.
+   # This may be used to place version sensitive modules.
+   #
+   $lib_dir = File::Spec->catdir( cwd(), 'lib' );
+   $lib_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
+   unshift @INC, $lib_dir;
+
+   ##########
+   # Pick up a output redirection file and tests to skip
+   # from the command line.
+   #
+   my $test_log = '';
+   GetOptions('log=s' => \$test_log);
+
+   ########
+   # Using Test::Tech, a very light layer over the module "Test" to
+   # conduct the tests.  The big feature of the "Test::Tech: module
+   # is that it takes a expected and actual reference and stringify
+   # them by using "Data::Dumper" before passing them to the "ok"
+   # in test.
+   #
+   # Create the test plan by supplying the number of tests
+   # and the todo tests
+   #
+   require Test::Tech;
+   Test::Tech->import( qw(plan ok skip skip_tests tech_config) );
+   plan(tests => 4);
+
 }
+
+
 
 END {
 
@@ -84,117 +137,103 @@ END {
    chdir $__restore_dir__;
 }
 
+   # Perl code from C:
+    use File::Spec;
+ 
+    use File::Package;
+    my $fp = 'File::Package';
 
-#####
-# New $fu object
-#
-use File::Package;
-my $fp = 'File::Package';
-my $ftp = 'File::TestPath';
+    use File::TestPath;
+    my $uut = 'File::TestPath';
+    use File::TestPath;
 
-#######
-#
-# ok: 1 
-#
-# R:
-#
-my $loaded;
-print "# is_package_loaded\n";
-ok ($loaded = $fp->is_package_loaded('File::TestPath'), ''); 
+ok(  $fp->is_package_loaded($uut), # actual results
+      '1', # expected results
+     "",
+     "UUT loaded");
 
-#######
-# 
-# ok:  2
-#
-# R:
-# 
-print "# load_package\n";
-my $errors = $fp->load_package( 'File::TestPath' );
-skip($loaded, $errors, '');
-skip_rest( $errors, 2 );
+#  ok:  1
 
-####
-#
-# ok: 3
-#
-# R:
-#
-print "# find_t_paths\n";
-unshift @INC,File::Spec->catdir(cwd(),'lib');
-my @t_path = $ftp->find_t_paths( );
-ok( $t_path[0], File::Spec->catdir(cwd(),'t'));
+   # Perl code from C:
+   unshift @INC,File::Spec->catdir(cwd(),'lib');
+   my @t_path = $uut->find_t_paths( );
+
+ok(  $t_path[0], # actual results
+     File::Spec->catdir(cwd(),'t'), # expected results
+     "",
+     "find_t_paths");
+
+#  ok:  2
+
+   # Perl code from C:
 shift @INC;
 
-####
-#
-# ok: 4
-#
-# R:
-#
-print "# test_lib2inc\n";
-my @restore_inc = $ftp->test_lib2inc( );
+   # Perl code from C:
+   my @restore_inc = $uut->test_lib2inc( );
 
-my ($vol,$dirs) = File::Spec->splitpath( cwd(), 'nofile');
-my @dirs = File::Spec->splitdir( $dirs );
-pop @dirs;
-shift @dirs unless $dirs[0];
-my @expected_lib = ();
-my @t_root = @dirs;
-pop @t_root;
-unshift @expected_lib, File::Spec->catdir($vol, @t_root);
-$dirs[-1] = 'lib';
-unshift @expected_lib, File::Spec->catdir($vol, @dirs);
-$dirs[-1] = 'tlib';
-unshift @expected_lib, File::Spec->catdir($vol, @dirs);
+   my ($vol,$dirs) = File::Spec->splitpath( cwd(), 'nofile');
+   my @dirs = File::Spec->splitdir( $dirs );
+   pop @dirs;
+   shift @dirs unless $dirs[0];
+   my @expected_lib = ();
+   my @t_root = @dirs;
+   pop @t_root;
+   unshift @expected_lib, File::Spec->catdir($vol, @t_root);
+   $dirs[-1] = 'lib';
+   unshift @expected_lib, File::Spec->catdir($vol, @dirs);
+   $dirs[-1] = 'tlib';
+   unshift @expected_lib, File::Spec->catdir($vol, @dirs);
 
-ok( join('; ', ($INC[0],$INC[1],$INC[2])), 
-    join('; ', @expected_lib));
+ok(  join('; ', ($INC[0],$INC[1],$INC[2])), # actual results
+     join('; ', @expected_lib), # expected results
+     "",
+     "test_lib2inc");
 
+#  ok:  3
+
+   # Perl code from C:
 @INC = @restore_inc;
 
-####
-#
-# ok: 5
-#
-# R:
-#
-print "# find_t_roots\n";
-my $dir = File::Spec->catdir(cwd(),'lib');
-$dir =~ s=/=\\=g if $^O eq 'MSWin32';
-unshift @INC,$dir;
-@t_path = $ftp->find_t_roots( );
-$dir = cwd();
-$dir =~ s=/=\\=g if $^O eq 'MSWin32';
-ok( $t_path[0], $dir);
+   # Perl code from C:
+   my $dir = File::Spec->catdir(cwd(),'lib');
+   $dir =~ s=/=\\=g if $^O eq 'MSWin32';
+   unshift @INC,$dir;
+   @t_path = $uut->find_t_roots( );
+   $dir = cwd();
+   $dir =~ s=/=\\=g if $^O eq 'MSWin32';
+
+ok(  $t_path[0], # actual results
+     $dir, # expected results
+     "",
+     "find_t_roots");
+
+#  ok:  4
+
+   # Perl code from C:
 shift @INC;
-
-
-####
-# 
-# Support:
-#
-#
-
-sub skip_rest
-{
-    my ($results, $test_num) = @_;
-    if( $results ) {
-        for (my $i=$test_num; $i < $__tests__; $i++) { skip(1,0,0) };
-        exit 1;
-    }
-}
-
-
-__END__
 
 
 =head1 NAME
 
-FileUtil.t - test script for $fu
+TestPath.t - test script for File::TestPath
 
 =head1 SYNOPSIS
 
- FileUtil.t 
+ TestPath.t -log=I<string>
+
+=head1 OPTIONS
+
+All options may be abbreviated with enough leading characters
+to distinguish it from the other options.
+
+=over 4
+
+=item C<-log>
+
+TestPath.t uses this option to redirect the test results 
+from the standard output to a log file.
+
+=back
 
 =head1 COPYRIGHT
 
@@ -205,15 +244,15 @@ and use in source and binary forms, with or
 without modification, provided that the 
 following conditions are met: 
 
-=over 4
+/=over 4
 
-=item 1
+/=item 1
 
 Redistributions of source code, modified or unmodified
 must retain the above copyright notice, this list of
 conditions and the following disclaimer. 
 
-=item 2
+/=item 2
 
 Redistributions in binary form must 
 reproduce the above copyright notice,
@@ -222,7 +261,7 @@ disclaimer in the documentation and/or
 other materials provided with the
 distribution.
 
-=back
+/=back
 
 SOFTWARE DIAMONDS, http://www.SoftwareDiamonds.com,
 PROVIDES THIS SOFTWARE 

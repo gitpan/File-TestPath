@@ -3,13 +3,13 @@ Title Page
 
      for
 
-      File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
+      File::TestPath - Determines include directories for the test software
 
-     Revision: A
+     Revision: B
 
-     Version: 0.02
+     Version: 0.03
 
-     Date: 2003/07/26
+     Date: 2003/09/20
 
      Prepared for: General Public 
 
@@ -37,7 +37,7 @@ Title Page
     in the test subtree.
 
   1.3 Document overview.
-    This document releases File::TestPath version 0.02 providing a
+    This document releases File::TestPath version 0.03 providing a
     description of the inventory, installation instructions and other
     information necessary to utilize and track this release.
 
@@ -48,8 +48,8 @@ Title Page
   3.1 Inventory of materials released.
     This document releases the file found at the following repository(s):
 
-       http://www.softwarediamonds/packages/File-TestPath-0.02
-       http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.02
+       http://www.softwarediamonds/packages/File-TestPath-0.03
+       http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.03
 
     Restrictions regarding duplication and license provisions are as
     follows:
@@ -93,13 +93,19 @@ Title Page
 
      file                                                         version date       comment
      ------------------------------------------------------------ ------- ---------- ------------------------
-     lib/Docs/Site_SVD/File_TestPath.pm                           0.02    2003/07/26 revised 0.01
-     MANIFEST                                                     0.02    2003/07/26 generated, replaces 0.01
-     Makefile.PL                                                  0.02    2003/07/26 generated, replaces 0.01
-     README                                                       0.02    2003/07/26 generated, replaces 0.01
-     lib/File/TestPath.pm                                         1.11    2003/07/26 revised 1.1
-     t/File/TestPath.t                                            0.08    2003/07/26 revised 0.07
-     tlib/File/Package.pm                                         1.1     2003/07/26 new
+     lib/Docs/Site_SVD/File_TestPath.pm                           0.03    2003/09/20 revised 0.02
+     MANIFEST                                                     0.03    2003/09/20 generated, replaces 0.02
+     Makefile.PL                                                  0.03    2003/09/20 generated, replaces 0.02
+     README                                                       0.03    2003/09/20 generated, replaces 0.02
+     lib/File/TestPath.pm                                         1.12    2003/09/20 revised 1.11
+     t/File/TestPath.d                                            0.01    2003/09/20 new
+     t/File/TestPath.pm                                           0.01    2003/09/20 new
+     t/File/TestPath.t                                            0.09    2003/09/20 revised 0.08
+     tlib/File/Package.pm                                         1.13    2003/09/20 revised 1.1
+     tlib/File/SmartNL.pm                                         1.12    2003/09/20 new
+     tlib/Text/Scrub.pm                                           1.11    2003/09/20 new
+     tlib/Test/Tech.pm                                            1.15    2003/09/20 new
+     tlib/Data/Secs2.pm                                           1.15    2003/09/20 new
 
   3.3 Changes
     Removed the methods for addressing test path directories from the
@@ -190,9 +196,9 @@ Title Page
 
          for
 
-          File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
+          File::TestPath - Determines include directories for the test software
 
-         Revision: A
+         Revision: B
 
         [snip]
 
@@ -203,7 +209,7 @@ Title Page
 
          for
 
-          File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
+          File::TestPath - Determines include directories for the test software
 
         What we have before, was a totally "failure to communicate." aka
         Cool Hand Luke. VAR1 was empty. Now VAR1 has something. It is not
@@ -298,6 +304,14 @@ Title Page
         support files in the tlib directory will vanish after the
         installtion.
 
+    File-TestPath-0.03
+        Use Archive::TarGzip 0.02 that uses modd 777 for directories instead
+        of 666. Started to get emails from Unix about untar not being able
+        to change to a directory with mod of 666.
+
+        Added the 'Data-Secs2' to the 'tlib' test library. Upgraded to the
+        'Test-Tech' module that uses the 'Data-Secs2' module.
+
   3.4 Adaptation data.
     This installation requires that the installation site has the Perl
     programming language installed. There are no other additional
@@ -323,8 +337,8 @@ Title Page
 
         The distribution file is at the following respositories:
 
-           http://www.softwarediamonds/packages/File-TestPath-0.02
-           http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.02
+           http://www.softwarediamonds/packages/File-TestPath-0.03
+           http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.03
 
     Prerequistes.
          None.
