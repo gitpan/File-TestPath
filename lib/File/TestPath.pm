@@ -2,12 +2,6 @@
 #
 # Documentation, copyright and license is at the end of this file.
 #
-
-
-#####
-#
-# File::FileUtil package
-#
 package  File::TestPath;
 
 use 5.001;
@@ -16,11 +10,13 @@ use warnings;
 use warnings::register;
 
 use vars qw($VERSION $DATE);
-$VERSION = '1.1';
-$DATE = '2003/06/24';
+$VERSION = '1.11';
+$DATE = '2003/07/26';
 
 use SelfLoader;
 use File::Spec;
+
+1
 
 __DATA__
 
@@ -33,21 +29,49 @@ sub test_lib2inc
    # Add the library of the unit under test (UUT) to @INC
    #
    use Cwd;
+   my @inc = @INC;
    my $work_dir = cwd();
+
+   ######
+   # Find root path of the t directory
+   #
    my ($vol,$dirs) = File::Spec->splitpath( $work_dir, 'nofile');
    my @dirs = File::Spec->splitdir( $dirs );
-   while( $dirs[-1] ne 't' ) { 
+   while( @dirs && $dirs[-1] ne 't' ) { 
        chdir File::Spec->updir();
        pop @dirs;
    };
-   my @inc = @INC;
    chdir File::Spec->updir();
    my $lib_dir = cwd();
+
+   #####
+   # Add the root path of the t directory to @INC. Thus, all
+   # modules in the t subtree may be loaded
+   #
    $lib_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
    unshift @INC, $lib_dir;  # include the current test directory
+
+   #####
+   # Add the root path of the lib directory at the same level as t
+   # @INC. Thus, modules in this lib subtree will be loaded before
+   # any other lib directories
+   #
    $lib_dir = File::Spec->catdir( cwd(), 'lib' );
    $lib_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
    unshift @INC, $lib_dir;
+
+   #####
+   # Add the root path of the tlib directory at the same level as t
+   # @INC. Thus, this modules may be loaded. This is usually special
+   # test software that may or may not be appropriate for the library
+   #
+   $lib_dir = File::Spec->catdir( cwd(), 'tlib' );
+   $lib_dir =~ s|/|\\|g if $^O eq 'MSWin32';  # microsoft abberation
+   unshift @INC, $lib_dir;
+
+   #####
+   # Restore the directory
+   #
    chdir $work_dir if $work_dir;
    @inc;
  
@@ -152,7 +176,7 @@ For example,
  perl/site/lib
  perl/lib 
 
- => File::FileUtil->find_t_paths()
+ => File::TestPath->find_t_paths()
 
  myperl/t
  perl/site/t
@@ -177,7 +201,7 @@ For example,
  perl/site/lib
  perl/lib 
 
- => File::FileUtil->find_t_roots()
+ => File::TestPath->find_t_roots()
 
  myperl
  perl/site
@@ -185,7 +209,7 @@ For example,
 
 =head2 test_lib2inc method
 
- @INC           = File::FileUtil->test_lib2inc()
+ @INC           = File::TestPath->test_lib2inc()
 
 The I<test_lib2inc> method walks up the directory tree from the current
 directory until it finds a directory named "t".
@@ -205,7 +229,7 @@ For example,
 
  myperl/t/mymodule/mytests
 
- => @restore_inc = File::FileUtil->find_t_roots()
+ => @restore_inc = File::TestPath->find_t_roots()
 
  => @INC
 

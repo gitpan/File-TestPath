@@ -4,3 +4,4 @@ Makefile.PL
 README
 lib/File/TestPath.pm
 t/File/TestPath.t
+tlib/File/Package.pm

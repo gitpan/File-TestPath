@@ -10,18 +10,19 @@ use warnings;
 use warnings::register;
 
 use vars qw($VERSION $DATE $FILE );
-$VERSION = '0.01';
-$DATE = '2003/06/24';
+$VERSION = '0.02';
+$DATE = '2003/07/26';
 $FILE = __FILE__;
 
 use vars qw(%INVENTORY);
 %INVENTORY = (
-    'lib/Docs/Site_SVD/File_TestPath.pm' => [qw(0.01 2003/06/24), 'revised 0.03'],
-    'MANIFEST' => [qw(0.01 2003/06/24), 'generated, replaces 0.03'],
-    'Makefile.PL' => [qw(0.01 2003/06/24), 'generated, replaces 0.03'],
-    'README' => [qw(0.01 2003/06/24), 'generated, replaces 0.03'],
-    'lib/File/TestPath.pm' => [qw(1.1 2003/06/24), 'revised 1.09'],
-    't/File/TestPath.t' => [qw(0.07 2003/06/24), 'revised 0.06'],
+    'lib/Docs/Site_SVD/File_TestPath.pm' => [qw(0.02 2003/07/26), 'revised 0.01'],
+    'MANIFEST' => [qw(0.02 2003/07/26), 'generated, replaces 0.01'],
+    'Makefile.PL' => [qw(0.02 2003/07/26), 'generated, replaces 0.01'],
+    'README' => [qw(0.02 2003/07/26), 'generated, replaces 0.01'],
+    'lib/File/TestPath.pm' => [qw(1.11 2003/07/26), 'revised 1.1'],
+    't/File/TestPath.t' => [qw(0.08 2003/07/26), 'revised 0.07'],
+    'tlib/File/Package.pm' => [qw(1.1 2003/07/26), 'new'],
 
 );
 
@@ -48,11 +49,11 @@ use vars qw(%INVENTORY);
 
   File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
 
- Revision: -
+ Revision: A
 
- Version: 0.01
+ Version: 0.02
 
- Date: 2003/06/24
+ Date: 2003/07/26
 
  Prepared for: General Public 
 
@@ -86,7 +87,7 @@ in the test subtree.
 
 =head2 1.3 Document overview.
 
-This document releases File::TestPath version 0.01
+This document releases File::TestPath version 0.02
 providing a description of the inventory, installation
 instructions and other information necessary to
 utilize and track this release.
@@ -102,8 +103,8 @@ system file specification.
 This document releases the file found
 at the following repository(s):
 
-   http://www.softwarediamonds/packages/File-TestPath-0.01
-   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.01
+   http://www.softwarediamonds/packages/File-TestPath-0.02
+   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.02
 
 
 Restrictions regarding duplication and license provisions
@@ -171,20 +172,16 @@ consists of the following files:
 
  file                                                         version date       comment
  ------------------------------------------------------------ ------- ---------- ------------------------
- lib/Docs/Site_SVD/File_TestPath.pm                           0.01    2003/06/24 revised 0.03
- MANIFEST                                                     0.01    2003/06/24 generated, replaces 0.03
- Makefile.PL                                                  0.01    2003/06/24 generated, replaces 0.03
- README                                                       0.01    2003/06/24 generated, replaces 0.03
- lib/File/TestPath.pm                                         1.1     2003/06/24 revised 1.09
- t/File/TestPath.t                                            0.07    2003/06/24 revised 0.06
+ lib/Docs/Site_SVD/File_TestPath.pm                           0.02    2003/07/26 revised 0.01
+ MANIFEST                                                     0.02    2003/07/26 generated, replaces 0.01
+ Makefile.PL                                                  0.02    2003/07/26 generated, replaces 0.01
+ README                                                       0.02    2003/07/26 generated, replaces 0.01
+ lib/File/TestPath.pm                                         1.11    2003/07/26 revised 1.1
+ t/File/TestPath.t                                            0.08    2003/07/26 revised 0.07
+ tlib/File/Package.pm                                         1.1     2003/07/26 new
 
 
 =head2 3.3 Changes
-
-The file names from 0.03 were changed as follows:
-
- return if $file =~ s=lib/File/FileUtil.pm=lib/File/TestPath.pm=;
- return if $file =~ s=t/File/FileUtil/FileUtil.t=t/File/TestPath.t=;
 
 Removed the methods for addressing test path directories 
 from the "File::FileUtil" module to this module
@@ -195,11 +192,11 @@ Changes to past revisions are as follows:
 
 =over 4
 
-=item Test::TestUtil 0.01
+=item Test-TestUtil-0.01
 
 Originated
 
-=item Test::TestUtil 0.02
+=item Test-TestUtil-0.02
 
 Correct failure from Josts Smokehouse" <Jost.Krieger+smokeback@ruhr-uni-bochum.de>
 test run
@@ -224,7 +221,7 @@ that changes file specifications from one operating system
 to another operating system.
 This method has been in service unchanged for some time.
 
-=item Test::TestUtil 0.03
+=item Test-TestUtil-0.03
 
 Correct failure from Josts Smokehouse" <Jost.Krieger+smokeback@ruhr-uni-bochum.de>
 test run
@@ -254,7 +251,7 @@ test script for this
 feature, and added a discusssion of this feature in
 POD discription for I<format_hash_table>
 
-=item Test::TestUtil 0.04
+=item Test-TestUtil-0.04
 
 item our old friend visits again - DOS and UNIX text file incompatibility
 
@@ -284,7 +281,7 @@ t/Test/TestUtil/TestUtil....NOK 18# Test 18 got: '$VAR1 = '\\=head1 Title Page
   File::FileUtil - Generic file utilites developed originally for Test::STDmaker and ExtUtils::SVDmaker
 
 
- Revision: -
+ Revision: A
 
 [snip]
 
@@ -319,7 +316,7 @@ instead of using the raw file handle.
 The I<fin> method takes any \015\012 combination and changes it into the 
 logical Perl new line, I<"\n">, for the current operating system.
 
-=item File::FileUtil 0.01
+=item File-FileUtil-0.01
 
 =over 4
 
@@ -374,11 +371,11 @@ failure from CPAN testing whose is running on a different platform.
 
 =back
 
-=item File::FileUtil 0.02
+=item File-FileUtil-0.02
 
 Added the method I<hex_dump>.
 
-=item File::FileUtil 0.03
+=item File-FileUtil-0.03
 
 =over 4
 
@@ -397,21 +394,31 @@ the directories in @INC
 
 =back
 
+=item File-TestPath-0.01
+
+Broke up File::FileUtil into set of program
+modules whose name more closely describes the
+features of the functions.
+
+=item File-TestPath-0.02
+
+Added tlib to the test path.
+
+Change the test so that test support program modules resides in distribution
+directory tlib directory instead of the lib directory. 
+Because they are no longer in the lib directory, 
+test support files will not be installed as a pre-condition for the 
+test of this module.
+The test of this module will precede immediately.
+The test support files in the tlib directory will vanish after
+the installtion.
+
 =back
 
 =head2 3.4 Adaptation data.
 
 This installation requires that the installation site
 has the Perl programming language installed.
-Installation sites running Microsoft Operating systems require
-the installation of Unix utilities. 
-An excellent, highly recommended Unix utilities for Microsoft
-operating systems is unxutils by Karl M. Syring.
-A copy is available at the following web sites:
-
- http://unxutils.sourceforge.net
- http://packages.SoftwareDiamnds.com
-
 There are no other additional requirements or tailoring needed of 
 configurations files, adaptation data or other software needed for this
 installation particular to any installation site.
@@ -439,13 +446,14 @@ Follow the instructions for the the chosen installation software.
 
 The distribution file is at the following respositories:
 
-   http://www.softwarediamonds/packages/File-TestPath-0.01
-   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.01
+   http://www.softwarediamonds/packages/File-TestPath-0.02
+   http://www.perl.com/CPAN-local/authors/id/S/SO/SOFTDIA/File-TestPath-0.02
 
 
 =item Prerequistes.
 
-File::Package => 0
+ None.
+
 
 =item Security, privacy, or safety precautions.
 
@@ -518,7 +526,13 @@ Plain Old Documentation
 
 =head1 2.0 SEE ALSO
 
+=over 4
 
+=item L<File::TestPath|File::TestPath> 
+
+=item L<Docs::US_DOD::SVD|Docs::US_DOD::SVD> 
+
+=back
 
 =for html
 <hr>
@@ -545,11 +559,11 @@ __DATA__
 DISTNAME: File-TestPath^
 REPOSITORY_DIR: packages^
 
-VERSION : 0.01^
-FREEZE: 1^
-PREVIOUS_DISTNAME: File-FileUtil^
-PREVIOUS_RELEASE: 0.03^
-REVISION: -^
+VERSION : 0.02^
+FREEZE:  1^
+PREVIOUS_DISTNAME:  ^
+PREVIOUS_RELEASE: 0.01^
+REVISION: A^
 
 AUTHOR  : SoftwareDiamonds.com E<lt>support@SoftwareDiamonds.comE<gt>^
 ABSTRACT: Generic file utilities originally developed to support Test::STDmaker^
@@ -570,17 +584,15 @@ COMPRESS: gzip^
 COMPRESS_SUFFIX: gz^
 
 RESTRUCTURE:  ^
-CHANGE2CURRENT:
-return if $file =~ s=lib/File/FileUtil.pm=lib/File/TestPath.pm=;
-return if $file =~ s=t/File/FileUtil/FileUtil.t=t/File/TestPath.t=;
-^
+CHANGE2CURRENT:  ^
 
 AUTO_REVISE: 
 lib/File/TestPath.pm
 t/File/TestPath.t
+lib/File/Package.pm => tlib/File/Package.pm
 ^
 
-PREREQ_PM: File::Package => 0^
+PREREQ_PM:  ^
 TESTS: t/File/TestPath.t^
 EXE_FILES:  ^
 
@@ -594,11 +606,11 @@ Changes to past revisions are as follows:
 
 \=over 4
 
-\=item Test::TestUtil 0.01
+\=item Test-TestUtil-0.01
 
 Originated
 
-\=item Test::TestUtil 0.02
+\=item Test-TestUtil-0.02
 
 Correct failure from Josts Smokehouse" <Jost.Krieger+smokeback@ruhr-uni-bochum.de>
 test run
@@ -623,7 +635,7 @@ that changes file specifications from one operating system
 to another operating system.
 This method has been in service unchanged for some time.
 
-\=item Test::TestUtil 0.03
+\=item Test-TestUtil-0.03
 
 Correct failure from Josts Smokehouse" <Jost.Krieger+smokeback@ruhr-uni-bochum.de>
 test run
@@ -653,7 +665,7 @@ test script for this
 feature, and added a discusssion of this feature in
 POD discription for I<format_hash_table>
 
-\=item Test::TestUtil 0.04
+\=item Test-TestUtil-0.04
 
 item our old friend visits again - DOS and UNIX text file incompatibility
 
@@ -718,7 +730,7 @@ instead of using the raw file handle.
 The I<fin> method takes any \015\012 combination and changes it into the 
 logical Perl new line, I<"\n">, for the current operating system.
 
-\=item File::FileUtil 0.01
+\=item File-FileUtil-0.01
 
 \=over 4
 
@@ -773,11 +785,11 @@ failure from CPAN testing whose is running on a different platform.
 
 \=back
 
-\=item File::FileUtil 0.02
+\=item File-FileUtil-0.02
 
 Added the method I<hex_dump>.
 
-\=item File::FileUtil 0.03
+\=item File-FileUtil-0.03
 
 \=over 4
 
@@ -795,6 +807,25 @@ returns the parent directory of all
 the directories in @INC
 
 \=back
+
+\=item File-TestPath-0.01
+
+Broke up File::FileUtil into set of program
+modules whose name more closely describes the
+features of the functions.
+
+\=item File-TestPath-0.02
+
+Added tlib to the test path.
+
+Change the test so that test support program modules resides in distribution
+directory tlib directory instead of the lib directory. 
+Because they are no longer in the lib directory, 
+test support files will not be installed as a pre-condition for the 
+test of this module.
+The test of this module will precede immediately.
+The test support files in the tlib directory will vanish after
+the installtion.
 
 \=back
 
@@ -926,7 +957,15 @@ Plain Old Documentation
 \=back
 ^
 
-SEE_ALSO:  ^
+SEE_ALSO: 
+\=over 4
+
+\=item L<File::TestPath|File::TestPath> 
+
+\=item L<Docs::US_DOD::SVD|Docs::US_DOD::SVD> 
+
+\=back
+^
 
 HTML:
 <hr>
