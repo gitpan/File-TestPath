@@ -1,0 +1,6 @@
+lib/Docs/Site_SVD/File_TestPath.pm
+MANIFEST
+Makefile.PL
+README
+lib/File/TestPath.pm
+t/File/TestPath.t
